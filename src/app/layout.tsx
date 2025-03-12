@@ -5,6 +5,7 @@ import {ReactNode} from "react";
 import localFont from "next/font/local";
 import {CookiesProvider} from "next-client-cookies/server";
 import ProgressProvider from "@/components/providers/ProgressProvider";
+import QueryProvider from "@/components/providers/QueryProvider";
 
 export const metadata: Metadata = {
   title: "cher1sh-next-app",
@@ -18,20 +19,24 @@ const pretendard = localFont({
 });
 
 
-export default function RootLayout({
+const RootLayout = ({
   children,
 }: Readonly<{
   children: ReactNode;
-}>) {
+}>) => {
   return (
     <html lang="ko">
       <body className={pretendard.variable}>
         <ProgressProvider>
-          <CookiesProvider>
-            <div className="w-full min-h-screen bg-bg">{children}</div>
-          </CookiesProvider>
+          <QueryProvider>
+            <CookiesProvider>
+              <div className="w-full min-h-screen bg-bg">{children}</div>
+            </CookiesProvider>
+          </QueryProvider>
         </ProgressProvider>
       </body>
     </html>
   );
 }
+
+export default RootLayout;
