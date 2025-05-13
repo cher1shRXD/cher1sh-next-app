@@ -1,35 +1,14 @@
-import React, {PropsWithChildren} from 'react'
-import { QueryClient, defaultShouldDehydrateQuery, isServer, QueryClientProvider } from '@tanstack/react-query';
+"use client";
 
-const makeQueryClient = () => {
-  return new QueryClient({
-    defaultOptions: {
-      queries: {
-        staleTime: 60 * 1000,
-      },
-      dehydrate: {
-        shouldDehydrateQuery: (query) => defaultShouldDehydrateQuery(query) || query.state.status === 'pending',
-      },
-    },
-  });
-}
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import React, { PropsWithChildren } from 'react'
 
-let browserQueryClient: QueryClient | undefined = undefined;
-
-const getQueryClient = () => {
-  if (isServer) {
-    return makeQueryClient();
-  } else {
-    if (!browserQueryClient) browserQueryClient = makeQueryClient();
-    return browserQueryClient;
-  }
-}
+const queryClient = new QueryClient();
 
 const QueryProvider = ({ children }: PropsWithChildren) => {
-  const queryClient = getQueryClient();
-  
   return (
     <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
   )
 }
+
 export default QueryProvider
