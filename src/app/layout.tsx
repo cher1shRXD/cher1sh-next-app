@@ -4,8 +4,8 @@ import './tailwind.css';
 import {ReactNode} from "react";
 import localFont from "next/font/local";
 import {CookiesProvider} from "next-client-cookies/server";
-import ProgressProvider from "@/components/providers/ProgressProvider";
-import QueryProvider from "@/components/providers/QueryProvider";
+import QueryProvider from "@/components/provider/QueryProvider";
+import ToastContainer from "@/components/provider/ToastProvider";
 
 export const metadata: Metadata = {
   title: "cher1sh-next-app",
@@ -27,13 +27,12 @@ const RootLayout = ({
   return (
     <html lang="ko">
       <body className={pretendard.variable}>
-        <ProgressProvider>
-          <QueryProvider>
-            <CookiesProvider>
-              <div className="w-full min-h-screen bg-bg">{children}</div>
-            </CookiesProvider>
-          </QueryProvider>
-        </ProgressProvider>
+        <ToastContainer />
+        <QueryProvider>
+          <CookiesProvider>
+            <div className="w-full min-h-screen bg-bg">{children}</div>
+          </CookiesProvider>
+        </QueryProvider>
       </body>
     </html>
   );
