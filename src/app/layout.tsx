@@ -6,6 +6,7 @@ import localFont from "next/font/local";
 import {CookiesProvider} from "next-client-cookies/server";
 import QueryProvider from "@/components/provider/QueryProvider";
 import ToastContainer from "@/components/provider/ToastProvider";
+import LoadingProvider from "@/components/provider/LoadingProvider";
 
 export const metadata: Metadata = {
   title: "cher1sh-next-app",
@@ -28,6 +29,7 @@ const RootLayout = ({
     <html lang="ko">
       <body className={pretendard.variable}>
         <ToastContainer />
+        <LoadingProvider color="#000" />
         <QueryProvider>
           <CookiesProvider>
             <div className="w-full min-h-screen bg-bg">{children}</div>
