@@ -1,12 +1,12 @@
 "use client";
 
-import { loadingStore } from "@/stores/loadingStore";
+import { useLoadingStore } from "@/stores/loading";
 import { usePathname, useRouter } from "next/navigation";
 
 export const useCustomRouter = () => {
   const router = useRouter();
   const pathname = usePathname();
-  const { setIsLoading } = loadingStore();
+  const { setIsLoading } = useLoadingStore();
 
 	const push = (href: string) => {
 		if (pathname !== href) {

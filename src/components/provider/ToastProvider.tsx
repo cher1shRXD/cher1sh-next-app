@@ -56,20 +56,21 @@ const ToastContainer = () => {
   return (
     <div className="fixed top-4 right-4 z-50 flex flex-col gap-2">
       {toasts.map((toast) => (
-        <div
-          key={toast.id}
-          className={`min-w-[300px] p-4 rounded shadow-lg flex items-center toast
-            white transform transition-all duration-300 ease-in-out bg-white gap-2`}
-        >
-          {getToastIcon(toast.type)}
-          <span>{toast.message}</span>
-          <div className="flex-1" />
-          <button
-            onClick={() => removeToast(toast.id)}
-            className="ml-4 text-white hover:text-gray-200"
+        <div className="bg-bg" key={toast.id}>
+          <div
+            className={`min-w-[300px] p-4 rounded shadow-lg flex items-center
+              transform transition-all ease-in-out bg-white border border-gray-200 gap-2`}
           >
-            <X size={16} />
-          </button>
+            {getToastIcon(toast.type)}
+            <span className="text-black text-sm">{toast.message}</span>
+            <div className="flex-1" />
+            <button
+              onClick={() => removeToast(toast.id)}
+              className="ml-4 hover:text-gray-200"
+            >
+              <X size={14} className="cursor-pointer" />
+            </button>
+          </div>
         </div>
       ))}
     </div>

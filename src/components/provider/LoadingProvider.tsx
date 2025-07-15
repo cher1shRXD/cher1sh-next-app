@@ -2,12 +2,12 @@
 
 import { useEffect, useState, useCallback, useRef } from "react";
 import { usePathname } from "next/navigation";
-import { loadingStore } from "@/stores/loadingStore";
-import { LoadingProviderProps } from "@/types/props/LoadingProviderProps";
+import { LoadingProviderProps } from "@/types/props/loading-provider-props";
+import { useLoadingStore } from "@/stores/loading";
 
 const LoadingProvider = ({ color }: LoadingProviderProps) => {
   const pathname = usePathname();
-  const { isLoading, setIsLoading } = loadingStore();
+  const { isLoading, setIsLoading } = useLoadingStore();
   const [progress, setProgress] = useState(0);
   const [visible, setVisible] = useState(false);
   

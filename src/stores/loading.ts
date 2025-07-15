@@ -1,10 +1,11 @@
 import { create } from 'zustand'
 
-interface Loading {
+interface LoadingStore {
   isLoading : boolean;
   setIsLoading : (val : boolean) => void;
 }
-export const loadingStore = create<Loading>((set)=>({
+
+export const useLoadingStore = create<LoadingStore>((set)=>({
   isLoading : false,
   setIsLoading : (isLoading) => set({isLoading})
 }))
