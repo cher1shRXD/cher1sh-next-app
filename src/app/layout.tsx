@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import localFont from 'next/font/local'
 import "./globals.css";
-import ToastContainer from "@/components/provider/ToastProvider";
-import LoadingProvider from "@/components/provider/LoadingProvider";
+import ToastContainer from "@/shared/providers/ToastProvider";
+import LoadingProvider from "@/shared/providers/LoadingProvider";
 
 export const metadata: Metadata = {
   title: "cher1sh-next-app",
@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 };
 
 const pretendard = localFont({
-    src: "../fonts/pretendard.woff2",
+    src: "../shared/fonts/pretendard.woff2",
     variable: "--font-prendard",
     weight: "100 900",
     display: "swap",
@@ -25,7 +25,7 @@ const RootLayout = ({
     <html lang="ko">
       <body className={`${pretendard.variable} antialiased`}>
         <ToastContainer />
-        <LoadingProvider color="black" />
+        <LoadingProvider color="#6969FF" />
         {children}
       </body>
     </html>

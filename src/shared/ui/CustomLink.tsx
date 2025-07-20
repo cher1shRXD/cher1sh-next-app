@@ -1,12 +1,16 @@
 "use client";
 
-import { useLoadingStore } from "@/stores/loading";
-import { CustomLinkProps } from "@/types/props/custom-link-props";
-
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
+import { useLoadingStore } from "../model/loading";
 
-const CustomLink = ({ href, children, className }: CustomLinkProps) => {
+interface Props { 
+  href: string; 
+  children: React.ReactNode;
+  className: string;
+}
+
+const CustomLink = ({ href, children, className }: Props) => {
   const pathname = usePathname();
 	const searchParams = useSearchParams();
   const { setIsLoading } = useLoadingStore();

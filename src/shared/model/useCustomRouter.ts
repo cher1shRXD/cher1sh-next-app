@@ -1,7 +1,7 @@
 "use client";
 
-import { useLoadingStore } from "@/stores/loading";
 import { usePathname, useRouter } from "next/navigation";
+import { useLoadingStore } from "./loading";
 
 export const useCustomRouter = () => {
   const router = useRouter();

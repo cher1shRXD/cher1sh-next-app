@@ -1,36 +1,25 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# cher1sh-next-app
+이 템플릿은 FSD 아키텍쳐가 적용되어 있습니다.
+로그인, 회원가입, 유저 불러오기가 기본 기능으로 포함되어 있습니다. (유저 타입, 입력 필드는 서버 스펙에 맞춰주세요.)
 
-## Getting Started
+## 주요 기능
+1. 페이지 렌더링시 저장되어있는 토큰을 확인하고 토큰의 exp가 만료되었다면 재발급 후 다시 페이지를 렌더링 합니다.
 
-First, run the development server:
+2. api 프록시를 통해 요청을 중앙화 하고, 서버 스펙에 맞추어 httpOnly 쿠키의 토큰을 api route에서 꺼내어 헤더의 Authorization에 삽입합니다.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+3. api 프록시에는 토큰 재발급 로직이 포함되어 있습니다.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 설치 & 적용된 라이브러리
+1. axios: Next.js API Route <-> 외부 API 서버 통신에 사용됩니다.
+2. tailwindcss: 스타일링에 사용됩니다.
+3. lucide-react: 다양한 아이콘을 제공합니다.
+4. zustand: 전역 상태 관리에 사용됩니다.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 유틸리티
+1. CustomLink, useCustomRouter, LoadingProvider를 통해 페이지 이동시 화면 상단에 프로그레스바가 표시됩니다.
+2. ToastProvider, toast.메서드("메시지")를 통해 토스트 메시지를 띄웁니다. 훅이 아니기에 SSR, CSR 모두 사용가능합니다.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## ETC
+- 프리텐다드 폰트가 적용되어 있습니다.
 
-## Learn More
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.

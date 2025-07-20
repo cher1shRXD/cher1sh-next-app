@@ -2,10 +2,13 @@
 
 import { useEffect, useState, useCallback, useRef } from "react";
 import { usePathname } from "next/navigation";
-import { LoadingProviderProps } from "@/types/props/loading-provider-props";
-import { useLoadingStore } from "@/stores/loading";
+import { useLoadingStore } from "../model/loading";
 
-const LoadingProvider = ({ color }: LoadingProviderProps) => {
+interface Props {
+  color: string;
+}
+
+const LoadingProvider = ({ color }: Props) => {
   const pathname = usePathname();
   const { isLoading, setIsLoading } = useLoadingStore();
   const [progress, setProgress] = useState(0);
@@ -111,7 +114,7 @@ const LoadingProvider = ({ color }: LoadingProviderProps) => {
           width: `${progress}%`,
           opacity: visible ? 1 : 0,
           background: color,
-          boxShadow: visible ? `0 0 10px ${color}40` : 'none', 
+          boxShadow: visible ? `0 0 10px ${color} 40` : 'none', 
         }}
       />
     </div>
