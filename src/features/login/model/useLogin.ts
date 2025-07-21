@@ -10,10 +10,14 @@ export const useLogin = () => {
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const res = await login({ email, password });
-    if(res){
-      toast.success("환영합니다!");
-      router.replace('/');
+    try {
+      const res = await login({ email, password });
+      if (res) {
+        toast.success("환영합니다!");
+        router.replace("/");
+      }
+    } catch {
+      toast.error("네트워크 에러");
     }
   };
 
@@ -22,6 +26,6 @@ export const useLogin = () => {
     setEmail,
     setPassword,
     email,
-    password
-  }
-}
+    password,
+  };
+};

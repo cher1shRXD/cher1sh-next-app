@@ -2,57 +2,65 @@ import { NextRequest, NextResponse } from "next/server";
 import { isTokenExpired } from "./shared/utils/is-token-expired";
 
 const middleware = async (req: NextRequest) => {
-  const { pathname } = req.nextUrl;
+  try {
+    const { pathname } = req.nextUrl;
 
-  if (pathname.startsWith("/api/") || pathname.startsWith("/login") || pathname.startsWith("/signup")) {
-    return NextResponse.next();
-  }
-
-  const accessToken = req.cookies.get("accessToken")?.value;
-  const refreshToken = req.cookies.get("refreshToken")?.value;
-
-  if (!accessToken || isTokenExpired(accessToken)) {
-    if (!refreshToken) {
-      return NextResponse.redirect(new URL("/login", req.url));
+    if (
+      pathname.startsWith("/api/") ||
+      pathname.startsWith("/login") ||
+      pathname.startsWith("/signup")
+    ) {
+      return NextResponse.next();
     }
 
-    const refreshResponse = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/auth/reissue`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ refreshToken }),
+    const accessToken = req.cookies.get("accessToken")?.value;
+    const refreshToken = req.cookies.get("refreshToken")?.value;
+
+    if (!accessToken || isTokenExpired(accessToken)) {
+      if (!refreshToken) {
+        return NextResponse.redirect(new URL("/login", req.url));
       }
-    );
 
-    if (!refreshResponse.ok) {
-      return NextResponse.redirect(new URL("/login", req.url));
+      const refreshResponse = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/auth/reissue`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ refreshToken }),
+        }
+      );
+
+      if (!refreshResponse.ok) {
+        return NextResponse.redirect(new URL("/login", req.url));
+      }
+
+      const { accessToken: newAccessToken, refreshToken: newRefreshToken } =
+        await refreshResponse.json();
+
+      const res = NextResponse.next();
+
+      res.cookies.set("accessToken", newAccessToken, {
+        httpOnly: true,
+        path: "/",
+        sameSite: "strict",
+        maxAge: 60 * 5,
+        secure: process.env.NODE_ENV === "production",
+      });
+      res.cookies.set("refreshToken", newRefreshToken, {
+        httpOnly: true,
+        path: "/",
+        sameSite: "strict",
+        maxAge: 60 * 60 * 24 * 30,
+        secure: process.env.NODE_ENV === "production",
+      });
+
+      return res;
     }
 
-    const { accessToken: newAccessToken, refreshToken: newRefreshToken } =
-      await refreshResponse.json();
-
-    const res = NextResponse.next();
-
-    res.cookies.set("accessToken", newAccessToken, {
-      httpOnly: true,
-      path: "/",
-      sameSite: "strict",
-      maxAge: 60 * 5,
-      secure: process.env.NODE_ENV === "production",
-    });
-    res.cookies.set("refreshToken", newRefreshToken, {
-      httpOnly: true,
-      path: "/",
-      sameSite: "strict",
-      maxAge: 60 * 60 * 24 * 30,
-      secure: process.env.NODE_ENV === "production",
-    });
-
-    return res;
+    return NextResponse.next();
+  } catch {
+    return NextResponse.redirect(new URL("/login", req.url));
   }
-
-  return NextResponse.next();
 };
 
 export const config = {
