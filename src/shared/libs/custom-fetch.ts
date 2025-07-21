@@ -8,7 +8,7 @@ const request = async <T>(url: string, options: RequestInit = {}) => {
       ...options,
       headers: {
         ...(options.headers || {}),
-        Cookie: cookieStore.toString(),
+        Authorization: `Bearer ${cookieStore.get("accessToken")?.value}`
       },
       credentials: 'include'
     };
@@ -23,6 +23,10 @@ const request = async <T>(url: string, options: RequestInit = {}) => {
         : { "Content-Type": "application/json" };
     }
     const response = await fetch(process.env.NEXT_PUBLIC_API_URL+url, fetchOptions);
+
+    if(!response.ok) {
+      return new Error(`${response.status}`);
+    }
 
     const res = (await response.json()) as T;
     return { data: res, status: response.status };

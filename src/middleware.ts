@@ -16,7 +16,11 @@ const middleware = async (req: NextRequest) => {
     const accessToken = req.cookies.get("accessToken")?.value;
     const refreshToken = req.cookies.get("refreshToken")?.value;
 
-    if (!accessToken || isTokenExpired(accessToken)) {
+    if(!accessToken) {
+      return NextResponse.next();
+    }
+
+    if (isTokenExpired(accessToken)) {
       if (!refreshToken) {
         return NextResponse.redirect(new URL("/login", req.url));
       }
