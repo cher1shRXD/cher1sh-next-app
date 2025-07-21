@@ -23,3 +23,11 @@
 - 프리텐다드 폰트가 적용되어 있습니다.
 
 
+### With npm
+```bash
+npx create-cher1sh-next-app
+```
+### With pnpm
+```bash
+pnpm create cher1sh-next-app
+```
