@@ -21,7 +21,7 @@ export const POST = async (req: NextRequest) => {
       httpOnly: true,
       secure: process.env.NEXT_PUBLIC_NODE_ENV === "production",
       path: "/",
-      maxAge: 60 * 60 * 24 * 5,
+      maxAge: 60 * 5,
     });
 
     return NextResponse.json({ accessToken: res.data.accessToken }, { status: res.status });;
