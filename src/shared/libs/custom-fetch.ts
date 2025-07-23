@@ -3,12 +3,16 @@ import { cookies } from "next/headers";
 const request = async <T>(url: string, options: RequestInit = {}) => {
   try {
     const cookieStore = await cookies();
+    const accessToken = cookieStore.get("accessToken")?.value;
+
+    const authorization = { Authorization: `Bearer ${accessToken}` };
 
     const fetchOptions: RequestInit = {
       ...options,
       headers: {
         ...(options.headers || {}),
-        Authorization: `Bearer ${cookieStore.get("accessToken")?.value}`
+        ...(accessToken ?  authorization : {})
+       
       },
       credentials: 'include'
     };
@@ -22,13 +26,15 @@ const request = async <T>(url: string, options: RequestInit = {}) => {
         ? { ...fetchOptions.headers, "Content-Type": "application/json" }
         : { "Content-Type": "application/json" };
     }
+
     const response = await fetch(process.env.NEXT_PUBLIC_API_URL+url, fetchOptions);
 
     if(!response.ok) {
-      return new Error(`${response.status}`);
+      throw new Error(`${response.status || 500}`);
     }
 
     const res = (await response.json()) as T;
+
     return { data: res, status: response.status };
   } catch (e) {
     throw e;
