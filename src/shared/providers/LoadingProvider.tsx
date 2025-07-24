@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useCallback, useRef } from "react";
 import { usePathname } from "next/navigation";
-import { useLoadingStore } from "../model/loading";
+import { useLoadingStore } from "../model/useLoadingStore";
 
 interface Props {
   color: string;

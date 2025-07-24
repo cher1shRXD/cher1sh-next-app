@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
-import { useLoadingStore } from "../model/loading";
+import { useLoadingStore } from "../model/useLoadingStore";
 
 interface Props { 
   href: string; 
