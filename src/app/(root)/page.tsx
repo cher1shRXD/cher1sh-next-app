@@ -6,7 +6,7 @@ import React from 'react'
 const Main = async () => {
   const user = await fetchUser();
 
-  if(!user.username) return (
+  if(!user?.username) return (
     <div className='w-full flex flex-col gap-2'>
       <CustomLink href='/login' className='text-blue-500'>로그인</CustomLink>
       <CustomLink href='/signup' className='text-blue-500'>회원가입</CustomLink>
