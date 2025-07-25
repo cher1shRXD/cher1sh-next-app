@@ -10,6 +10,7 @@ export const handler = async (
   const cookieStore = await cookies();
   let accessToken = cookieStore.get("accessToken")?.value;
   let refreshToken = cookieStore.get("refreshToken")?.value;
+  let isRefreshed = false;
 
   const path = await params;
   const targetPath = path.proxy.join("/");
@@ -74,6 +75,7 @@ export const handler = async (
 
     accessToken = newAccessToken;
     refreshToken = newRefreshToken;
+    isRefreshed = true;
   }
 
   try {
@@ -83,7 +85,7 @@ export const handler = async (
       status: apiResponse.status,
     });
 
-    if (accessToken && refreshToken) {
+    if (accessToken && refreshToken && isRefreshed) {
       response.cookies.set("refreshToken", refreshToken, {
         httpOnly: true,
         secure: process.env.NEXT_PUBLIC_NODE_ENV === "production",
